@@ -4,8 +4,6 @@ var Router = module.exports = function() {
   this.routes = {
     'GET': {},
     'POST': {}
-    // 'PUT': {},
-    // 'DELETE': {}
   };
 };
 

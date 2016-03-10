@@ -28,20 +28,6 @@ seriesRouter.get('/series/', (req, res) => {
       console.log(err);
     } else {
       res.writeHead(200, {'Content-Type': 'text/html'});
-      // working on making the following work async
-      // for now, just list filenames
-      //
-      // for(var ctr = 0; ctr < files.length; ctr++) {
-          //
-          // item = fs.readFile('../data/' + files[ctr], (err, data) => {
-          //   if(err) {
-          //     console.log(err);
-          //   } else {
-          //     console.log(data.toString());
-          //     res.write(data.toString() + '\n');
-          //   }
-          // });
-      // }
       files.forEach( (cur) => {
         res.write(cur + '\n');
       });
