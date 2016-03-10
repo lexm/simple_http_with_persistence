@@ -10,20 +10,24 @@ require(__dirname + '/../routes/seriesRoutes');
 describe('Testing series POST', () => {
   before((done) => {
     var numFiles;
-    fs.readdir('../data', (err, files) => {
-      numFiles = files.length;
+    fs.readdir('./data', (err, files) => {
+      if(err) {
+        console.error(err);
+      } else {
+        numFiles = files.length;
+      }
       done();
     });
   });
   it('should respond to POST request by creating a series', (done) => {
     request('localhost:3000')
-      .post('/series')
+      .post('/series/')
       .set('Content-Type', 'application/json')
       .send('{"name": "The Wire"}')
       .end((err, res) => {
         expect(err).to.eql(null);
-        expect(res).to.have.status(400);
-        fs.readdir('../data', (err, files) => {
+        expect(res).to.have.status(200);
+        fs.readdir('./data', (err, files) => {
           expect(files.length).to.eql(numFiles + 1);
         });
         done();
