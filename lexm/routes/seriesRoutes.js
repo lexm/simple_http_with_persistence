@@ -23,7 +23,7 @@ seriesRouter.post('/series/', (req, res) => {
 
 seriesRouter.get('/series/', (req, res) => {
   console.log('/series GET hit');
-  fs.readdir('../data', (err, files) => {
+  fs.readdir(__dirname + '/../data', (err, files) => {
     if(err) {
       console.log(err);
     } else {
@@ -38,6 +38,7 @@ seriesRouter.get('/series/', (req, res) => {
   console.log(req.url);
 });
 
-http.createServer(seriesRouter.route()).listen(3000, () => {
-  console.log('server up on 3000');
-});
+exports.seriesRouter = seriesRouter;
+// http.createServer(seriesRouter.route()).listen(3000, () => {
+//   console.log('server up on 3000');
+// });
