@@ -4,21 +4,41 @@ var fs = require('fs');
 var http = require('http');
 var Router = require('../lib/router');
 var seriesRouter = new Router();
-var nextId = 1;
+var nextId = 0;
+
+var writeLog = function(id, chunk) {
+  var padId = ('000000'+ id).substr(-6, 6);
+  var newFilename = __dirname + '/../data/' + padId + 'series.json';
+  fs.writeFile(newFilename, chunk.toString(), () => {
+    console.log(newFilename + ' finished writing');
+  });
+};
 
 
 seriesRouter.post('/series/', (req, res) => {
   console.log('/series POST hit');
   req.on('data', (data) => {
-    var padId = ('000000'+ nextId).substr(-6, 6);
-    var newFilename = __dirname + '/../data/' + padId + 'series.json';
-    fs.writeFile(newFilename, data.toString(), () => {
-      console.log(newFilename + ' finished writing');
-    });
-    nextId++;
+    if(nextId == 0) {
+      fs.readdir('./data', (err, files) => {
+        if(err) {
+          console.error(err);
+        } else {
+          nextId = files.length + 1;
+          console.log('new ID' + nextId);
+        }
+        writeLog(nextId, data);
+        nextId++;
+        res.end();
+      });
+    } else {
+      console.log('what is up: ' + nextId);
+      writeLog(nextId, data);
+      nextId++;
+      res.end();
+    }
   });
-  res.end();
 });
+
 
 
 seriesRouter.get('/series/', (req, res) => {

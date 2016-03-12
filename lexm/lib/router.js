@@ -18,6 +18,11 @@ Router.prototype.post = function(route, cb) {
 Router.prototype.route = function() {
   return (req, res) => {
     var routeFunction = this.routes[req.method][req.url];
-    routeFunction(req, res);
+    if ((this.routes.hasOwnProperty(req.method)) &&
+        (this.routes[req.method].hasOwnProperty(req.url))) {
+      routeFunction(req, res);
+    } else {
+      console.log('[' + req.method + '][' + req.url + '] not found');
+    }
   };
 };
