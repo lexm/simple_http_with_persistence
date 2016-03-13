@@ -6,10 +6,10 @@ chai.use(chaiHTTP);
 var request = chai.request;
 var expect = chai.expect;
 require(__dirname + '/../routes/seriesRoutes');
+var numFiles;
 
 describe('Testing series POST', () => {
   before((done) => {
-    var numFiles;
     fs.readdir('./data', (err, files) => {
       if(err) {
         console.error(err);
@@ -33,5 +33,15 @@ describe('Testing series POST', () => {
         done();
       });
 
+  });
+});
+
+describe('testing series GET', () => {
+  it('should respond to GET request by showing a list of files', () => {
+    request('localhost:3000')
+      .get('/series/')
+      .end((err, res) => {
+
+      });
   });
 });
