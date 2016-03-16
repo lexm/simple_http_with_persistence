@@ -5,7 +5,8 @@ chai.use(chaiHTTP);
 
 var request = chai.request;
 var expect = chai.expect;
-require(__dirname + '/../routes/seriesRoutes');
+
+require(__dirname + '/../server');
 var numFiles;
 
 describe('Testing series POST', () => {
@@ -37,11 +38,15 @@ describe('Testing series POST', () => {
 });
 
 describe('testing series GET', () => {
-  it('should respond to GET request by showing a list of files', () => {
+  it('should respond to GET request by showing a list of files', (done) => {
     request('localhost:3000')
       .get('/series/')
       .end((err, res) => {
-
+        expect(res).to.have.status(200);
+        fs.readdir('./data', (err, files) => {
+          expect(files.length).to.eql(res.text.split('\n').length + 1);
+        });
+        done();
       });
   });
 });

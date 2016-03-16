@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var http = require('http');
+// var http = require('http');
 var Router = require('../lib/router');
 var seriesRouter = new Router();
 var nextId = 0;
@@ -54,7 +54,6 @@ seriesRouter.get('/series/', (req, res) => {
       res.end();
     }
   });
-  debugger;
   console.log(req.url);
 });
 
